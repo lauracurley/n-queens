@@ -79,12 +79,26 @@
     //
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
-      return false; // fixme
+      var ones = 0; //keep track of how many ones there are on the row. 
+      var rowArr = this.rows()[rowIndex];
+      _.each(rowArr, function(value){
+        if (value === 1){
+          ones++;
+        }
+      });
+      return ones>1 ? true: false; 
     },
 
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
-      return false; // fixme
+      var result = false;
+      var allRowsArr = this.rows();
+      _.each(allRowsArr, function(value, index){
+        if (hasRowConflictAt(index)){
+          result = true;
+        }
+      });
+      return result;
     },
 
 
@@ -146,3 +160,12 @@
   };
 
 }());
+
+var board = new Board({n: 4});
+board.togglePiece(0,0);
+board.togglePiece(0,2);
+// console.log(board.rows());
+console.log(board.hasRowConflictAt(0));
+console.log('\n');
+
+
