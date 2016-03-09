@@ -80,8 +80,8 @@
     // test if a specific row on this board contains a conflict
     hasRowConflictAt: function(rowIndex) {
       var ones = 0; //keep track of how many ones there are on the row. 
-      var rowArr = this.rows()[rowIndex];
-      _.each(rowArr, function(value){
+      var currRowArr = this.rows()[rowIndex];
+      _.each(currRowArr, function(value){
         if (value === 1){
           ones++;
         }
@@ -92,28 +92,41 @@
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
       var result = false;
-      var allRowsArr = this.rows();
-      _.each(allRowsArr, function(value, index){
-        if (hasRowConflictAt(index)){
+      var rowsArr = this.rows();
+      var bound = this.hasRowConflictAt.bind(this); //REVIEW THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      _.each(rowsArr, function(value, index){
+        if (bound(index)){ //if (this.hasRowConflictAt(index)) doesn't work because lost binding to window.
           result = true;
         }
       });
       return result;
     },
 
-
-
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
     //
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
-      return false; // fixme
+      var ones = 0;
+      var rowsArr = this.rows();
+      _.each(rowsArr, function(value){
+        if (value[colIndex] === 1){
+          ones++;
+        }
+      });
+      return ones>1 ? true : false;
     },
 
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
-      return false; // fixme
+      var result = false;
+      var numCols = this.rows().length;
+      for (var i=0; i<numCols; i++){
+        if (this.hasColConflictAt(i)){
+          result = true;
+        }
+      }
+      return result; 
     },
 
 
@@ -163,9 +176,10 @@
 
 var board = new Board({n: 4});
 board.togglePiece(0,0);
-board.togglePiece(0,2);
+board.togglePiece(2,0);
 // console.log(board.rows());
-console.log(board.hasRowConflictAt(0));
+console.log(board.hasColConflictAt(1));
+console.log(board.hasAnyRowConflicts());
 console.log('\n');
 
 
