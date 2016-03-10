@@ -79,6 +79,7 @@
     //
     // test if a specific row on this board contains a conflict
 
+    // Time complexity: linear
     hasRowConflictAt: function(rowIndex) {
       var ones = 0; //keep track of how many ones there are on the row. 
       var currRowArr = this.rows()[rowIndex];
@@ -90,6 +91,7 @@
       return ones > 1 ? true : false; 
     },
 
+    // Time complexity: quadratic
     // test if any rows on this board contain conflicts
     hasAnyRowConflicts: function() {
       var result = false;
@@ -106,6 +108,8 @@
     // COLUMNS - run from top to bottom
     // --------------------------------------------------------------
     //
+
+    // Time complexity: linear
     // test if a specific column on this board contains a conflict
     hasColConflictAt: function(colIndex) {
       var ones = 0;
@@ -118,6 +122,7 @@
       return ones>1 ? true : false;
     },
 
+    // Time complexity: quadratic
     // test if any columns on this board contain conflicts
     hasAnyColConflicts: function() {
       var result = false;
@@ -135,6 +140,8 @@
     // Major Diagonals - go from top-left to bottom-right
     // --------------------------------------------------------------
     //
+
+    // Time complexity: linear
     // test if a specific major diagonal on this board contains a conflict
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
       var ones = 0;
@@ -156,6 +163,7 @@
       return ones > 1; 
     },
 
+    // Time complexity: quadratic
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var rowsArr = this.rows();
@@ -173,6 +181,8 @@
     // Minor Diagonals - go from top-right to bottom-left
     // --------------------------------------------------------------
     //
+
+    // Time complexity: linear
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
       // console.log(minorDiagonalColumnIndexAtFirstRow);
@@ -196,6 +206,7 @@
 
     },
 
+    // Time complexity: quadratic
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
 
