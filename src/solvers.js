@@ -107,8 +107,20 @@ window.countNQueensSolutions = function(n) {
   for (var c = 0; c < n; c++) {
     for (var r = 0; r < n; r++) {
 
+      b.togglePiece(r, c);
+      if (!hasAnyQueenConflictsOn(r, c)) {
+        currentlyPlaced.push([r, c]);
+        r = n;
+      } else {
+        b.togglePiece(r, c);
+      }
 
-      
+      if (r + 1 === n && currentlyPlaced.length < c + 1) {
+        lastQueen = currentlyPlaced.pop();
+        r = lastQueen[0] + 1;
+        c = lastQueen[1];
+      }
+
     }
   }
 
