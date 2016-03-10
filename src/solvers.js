@@ -46,30 +46,16 @@ window.countNRooksSolutions = function(n) {
   var solutionCount = 0; //fixme
   var a = 3;
 
-  var factorial = function(n) {
-  	if (n === 0) {}
-  }
-  // keep track of rook count
-
-var factorial = function(n) {
-	if (n === 0) {
-	return 1;
-}
-	return n * factorial(n - 1);
-};
-factorial(n);
-
-return factorial;
-
-var factorial = function(n) {
-	if (n === 0) {
-	return 1;
-}
-}
+  var solutionCount = function(n) {
+    if (n === 0) {
+      return 1;
+    } 
+    return n * solutionCount(n - 1);
+  };
 
 
   console.log('Number of solutions for ' + n + ' rooks:', solutionCount);
-  return solutionCount;
+  return solutionCount(n);
 };
 // n = 1 -> return 1
 // n = 2 -> return 2
@@ -100,15 +86,15 @@ window.countNQueensSolutions = function(n) {
     return 0;
   } else if (n === 1) {
     return 1;
-  } else if (n <== 3) {
-    return 1;
+  } else if (n <= 3) {
+    return 0;
   }
 
   for (var c = 0; c < n; c++) {
     for (var r = 0; r < n; r++) {
 
       b.togglePiece(r, c);
-      if (!hasAnyQueenConflictsOn(r, c)) {
+      if (!b.hasAnyQueenConflictsOn(r, c)) {
         currentlyPlaced.push([r, c]);
 
         if (currentlyPlaced.length === n) {
