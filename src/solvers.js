@@ -110,6 +110,11 @@ window.countNQueensSolutions = function(n) {
       b.togglePiece(r, c);
       if (!hasAnyQueenConflictsOn(r, c)) {
         currentlyPlaced.push([r, c]);
+
+        if (currentlyPlaced.length === n) {
+          solutionCount++;
+        }
+
         r = n;
       } else {
         b.togglePiece(r, c);
