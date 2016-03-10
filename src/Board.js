@@ -139,34 +139,12 @@
     hasMajorDiagonalConflictAt: function(majorDiagonalColumnIndexAtFirstRow) {
       var ones = 0;
       var rowsArr = this.rows();
-
-      // console.log(majorDiagonalColumnIndexAtFirstRow);
-      // for (var i = majorDiagonalColumnIndexAtFirstRow; i < rowsArr.length; i++) {
-      //   if (this.rows()[i][majorDiagonalColumnIndexAtFirstRow] === 1) {
-      //     ones++;
-      //   }
-      // // }
-      // for (var i = 1; i < rowsArr.length; i++) {
-      //   if (this.rows()[i][majorDiagonalColumnIndexAtFirstRow + i] === 1) {
-      //     ones++;
-      //   }
-      // }
-      // for (var i = 0; i < rowsArr.length; i++) {
-      //   for (var j = majorDiagonalColumnIndexAtFirstRow; j < rowsArr.length; j++) {
-
-
-      //     if (rowsArr[i][j] !== undefined && rowsArr[i][j] === 1) {
-      //       ones++;
-      //       // console.log(i + ' ' + j);
-      //     }
-      //   }
-      // }
       var rowIndex = 0;
-      for (var i = majorDiagonalColumnIndexAtFirstRow; i < rowsArr.length; i++) {
-        console.log(rowIndex + ' ' + i);
-        console.log(rowsArr[rowIndex][i]);
-        if (rowsArr[rowIndex][i] !== undefined) {
-          if (rowsArr[rowIndex][i] === 1) {
+      for (var colIndex = majorDiagonalColumnIndexAtFirstRow; colIndex < rowsArr.length; colIndex++) {
+        // console.log(rowIndex + ' ' + i);
+        // console.log(rowsArr[rowIndex][i]);
+        if (rowsArr[rowIndex][colIndex] !== undefined) {
+          if (rowsArr[rowIndex][colIndex] === 1) {
             ones++;
           }
         }         
@@ -197,12 +175,38 @@
     //
     // test if a specific minor diagonal on this board contains a conflict
     hasMinorDiagonalConflictAt: function(minorDiagonalColumnIndexAtFirstRow) {
-      return false; // fixme
+      // console.log(minorDiagonalColumnIndexAtFirstRow);
+      var ones = 0;
+      var rowsArr = this.rows();
+      var rowIndex = 0;
+
+      for (var colIndex = minorDiagonalColumnIndexAtFirstRow; colIndex >= 0; colIndex--) {
+        // console.log(colIndex);
+        if (rowsArr[rowIndex][colIndex] !== undefined) {
+          if (rowsArr[rowIndex][colIndex] === 1) {
+            ones++;
+          }
+        }         
+        rowIndex++;
+        if (rowIndex === rowsArr.length) {
+          break;
+        } 
+      }
+      return ones > 1; 
+
     },
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      return false; // fixme
+
+      var rowsArr = this.rows();
+      var colsStartingIndex = 2 * rowsArr.length - 1;
+      for (var i = colsStartingIndex; i >= 0; i--) {
+        if (this.hasMinorDiagonalConflictAt(i)) {
+          return true;
+        }
+      }
+      return false;
     }
 
     /*--------------------  End of Helper Functions  ---------------------*/
@@ -230,7 +234,7 @@ board.togglePiece(1,2);
 console.log(board.rows());
 // console.log(board.hasAnyRowConflicts());
 // console.log(board.hasMajorDiagonalConflictAt(1));
-console.log(board.hasAnyMajorDiagonalConflicts());
+// console.log(board.hasAnyMajorDiagonalConflicts());
 console.log('\n');
 
 
