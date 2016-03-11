@@ -68,75 +68,57 @@ window.findNQueensSolution = function(n) {
   var solution = 0;
 
 
-  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solution));
-  return solution;
-};
+  console.log('Currently running n: ' + n);
 
-// return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
-window.countNQueensSolutions = function(n) {
   var solutionCount = 0;
-  var solutionArray = [];
   var currentlyPlaced = [];
   var b = new Board({n: n});
   var lastQueen;
   var r = 0;
   var c = 0;
   var start = false;
-  // debugger;
-  console.log(n);
 
-  if (n === 0) {
-    return 1;
-  } else if (n === 1) {
-    return 1;
-  } else if (n <= 3) {
-    return 0;
+  if (n === 0 || n === 2 || n === 3) {
+    return [];
   }
 
+  //Begin Loop 1
   while (c < n) {
-    if (start === true) {
-      // console.log(lastQueen);
-      // c = lastQueen[1];
-    }    
-
-    //LOOP 2///////////////////
+    //Begin loop 2
     r = 0;
     while (r < n) {
       if (start === true) {
         r = lastQueen[0] + 1;
 
         if (r === n) { //check if row index is out of bounds
-          console.log('row: ', r, 'col: ', c);
-          console.log(currentlyPlaced);
-          if (currentlyPlaced.length !== 0) {//could have effed up here
+          // console.log('row: ', r, 'col: ', c);
+          // console.log(currentlyPlaced);
+          if (currentlyPlaced.length !== 0) { //could have effed up here
             lastQueen = currentlyPlaced.pop();
             b.togglePiece(lastQueen[0], lastQueen[1]);
             r = lastQueen[0] + 1;
             c = lastQueen[1];
-            
           } else {
-            // return solutionArray.push(solutionCount);
             return solutionCount;
-            
           }
         }
       }
 
       start = false;
-      // console.log('row: ', r, 'col: ', c);
       if (start === false) {
         b.togglePiece(r, c);
         if (!b.hasAnyQueenConflictsOn(r, c)) { //if no conflicts, do this.
           currentlyPlaced.push([r, c]);
-          console.log('placed queen! move to next col');
+          // console.log('placed queen! move to next col');
 
           if (currentlyPlaced.length === n) {
-            // debugger;
+            // console.log(r, c);
             console.log('Found solution!');
-            solutionCount++;
-            currentlyPlaced.pop();
-            b.togglePiece(r, c);
-            // solution was found, do same thing as if none was found
+            console.log(b.rows());
+            // solutionCount++;
+            // currentlyPlaced.pop();
+            // b.togglePiece(r, c);
+            return b.rows();
           } else {
             r = n; //if no conflicts, then skip to next column
           }
@@ -146,10 +128,10 @@ window.countNQueensSolutions = function(n) {
         }
 
         if (r + 1 === n && currentlyPlaced.length < c + 1) {
-          console.log('End of a blank column!');
+          // console.log('End of a blank column!');
           lastQueen = currentlyPlaced.pop();
           b.togglePiece(lastQueen[0], lastQueen[1]);
-          console.log('Last Queen: ', lastQueen[0], ' , ', lastQueen[1]);
+          // console.log('Last Queen: ', lastQueen[0], ' , ', lastQueen[1]);
           start = true;
         }
 
@@ -164,12 +146,97 @@ window.countNQueensSolutions = function(n) {
     }
   }
 
+  // console.log('Number of solutions for ' + n + ' queens:', solutionCount);
+
+  return solutionCount;
+
+
+};
+
+// return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
+window.countNQueensSolutions = function(n) {
+  var solutionCount = 0;
+  var currentlyPlaced = [];
+  var b = new Board({n: n});
+  var lastQueen;
+  var r = 0;
+  var c = 0;
+  var start = false;
+
+  if (n === 0) {
+    return 1;
+  } else if (n === 1) {
+    return 1;
+  } else if (n <= 3) {
+    return 0;
+  }
+
+  //Begin Loop 1
+  while (c < n) {
+    //Begin loop 2
+    r = 0;
+    while (r < n) {
+      if (start === true) {
+        r = lastQueen[0] + 1;
+
+        if (r === n) { //check if row index is out of bounds
+          // console.log('row: ', r, 'col: ', c);
+          // console.log(currentlyPlaced);
+          if (currentlyPlaced.length !== 0) { //could have effed up here
+            lastQueen = currentlyPlaced.pop();
+            b.togglePiece(lastQueen[0], lastQueen[1]);
+            r = lastQueen[0] + 1;
+            c = lastQueen[1];
+          } else {
+            return solutionCount;
+          }
+        }
+      }
+
+      start = false;
+      if (start === false) {
+        b.togglePiece(r, c);
+        if (!b.hasAnyQueenConflictsOn(r, c)) { //if no conflicts, do this.
+          currentlyPlaced.push([r, c]);
+          // console.log('placed queen! move to next col');
+
+          if (currentlyPlaced.length === n) {
+            // console.log('Found solution!');
+            solutionCount++;
+            currentlyPlaced.pop();
+            b.togglePiece(r, c);
+          } else {
+            r = n; //if no conflicts, then skip to next column
+          }
+
+        } else { //if has conflicts, do this:
+          b.togglePiece(r, c);
+        }
+
+        if (r + 1 === n && currentlyPlaced.length < c + 1) {
+          // console.log('End of a blank column!');
+          lastQueen = currentlyPlaced.pop();
+          b.togglePiece(lastQueen[0], lastQueen[1]);
+          // console.log('Last Queen: ', lastQueen[0], ' , ', lastQueen[1]);
+          start = true;
+        }
+
+        r++;
+      }
+
+    }//////////////////////////////
+    if (start === true) {
+      c = lastQueen[1];
+    } else {
+      c++;
+    }
+  }
 
   // console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
-  // return solutionArray;
 };
 
-console.log('# of Solutions for 4 Queens: ' + countNQueensSolutions(4));
+console.log('1 Possible Solution for 4 Queens: ' + findNQueensSolution(4));
+// console.log('# of Solutions for 4 Queens: ' + countNQueensSolutions(4));
 
 

@@ -1,4 +1,4 @@
-describe('ChessboardView', function() {
+xdescribe('ChessboardView', function() {
   var view;
 
   beforeEach(function() {
