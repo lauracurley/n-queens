@@ -242,7 +242,7 @@ board.togglePiece(0,1);
 board.togglePiece(1,2);
 // console.log(board.rows());
 // console.log(board.hasColConflictAt(1));
-console.log(board.rows());
+// console.log(board.rows());
 // console.log(board.hasAnyRowConflicts());
 // console.log(board.hasMajorDiagonalConflictAt(1));
 // console.log(board.hasAnyMajorDiagonalConflicts());

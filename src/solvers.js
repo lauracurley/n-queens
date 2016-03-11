@@ -63,9 +63,6 @@ window.countNRooksSolutions = function(n) {
 
 
 
-
-
-
 // return a matrix (an array of arrays) representing a single nxn chessboard, with n queens placed such that none of them can attack each other
 window.findNQueensSolution = function(n) {
   var solution = 0;
@@ -81,6 +78,11 @@ window.countNQueensSolutions = function(n) {
   var currentlyPlaced = [];
   var b = new Board({n: n});
   var lastQueen;
+  var r = 0;
+  var c = 0;
+  var start = false;
+  // debugger;
+  console.log(n);
 
   if (n === 0) {
     return 0;
@@ -90,31 +92,106 @@ window.countNQueensSolutions = function(n) {
     return 0;
   }
 
-  for (var c = 0; c < n; c++) {
-    for (var r = 0; r < n; r++) {
+  while (c < n) {
+    if (start === true) {
+      // console.log(lastQueen);
+      // c = lastQueen[1];
+    }    
 
-      b.togglePiece(r, c);
-      if (!b.hasAnyQueenConflictsOn(r, c)) {
-        currentlyPlaced.push([r, c]);
+    //LOOP 2///////////////////
+    r = 0;
+    while (r < n) {
+      if (start === true) {
+        r = lastQueen[0] + 1;
 
-        if (currentlyPlaced.length === n) {
-          solutionCount++;
+        if (r === n) {
+          lastQueen = currentlyPlaced.pop();
+          b.togglePiece(lastQueen[0], lastQueen[1]);
+          r = lastQueen[0] + 1;
+          c = lastQueen[1];
+        }
+      }
+
+      start = false;
+      console.log('row: ', r, 'col: ', c);
+      if (start === false) {
+        b.togglePiece(r, c);
+        if (!b.hasAnyQueenConflictsOn(r, c)) {
+          currentlyPlaced.push([r, c]);
+
+          if (currentlyPlaced.length === n) {
+            solutionCount++;
+          }
+          console.log('placed queen! move to next col');
+          r = n;
+        } else {
+          b.togglePiece(r, c);
         }
 
-        r = n;
-      } else {
-        b.togglePiece(r, c);
+        if (r + 1 === n && currentlyPlaced.length < c + 1) {
+          console.log('End of a blank column!');
+          lastQueen = currentlyPlaced.pop();
+          b.togglePiece(lastQueen[0], lastQueen[1]);
+          console.log('Last Queen: ', lastQueen);
+          start = true;
+        }
+
+        r++;
       }
 
-      if (r + 1 === n && currentlyPlaced.length < c + 1) {
-        lastQueen = currentlyPlaced.pop();
-        r = lastQueen[0] + 1;
-        c = lastQueen[1];
-      }
-
+    }//////////////////////////////
+    if (start === true) {
+      c = lastQueen[1];
+    } else {
+      c++;
     }
   }
 
+  // for (c = 0; c < n; c++) {
+  //   if (start === true) {
+  //     console.log('ENTERED');
+  //     // console.log(lastQueen);
+  //     c = lastQueen[1];
+  //   }
+
+  //   for (r = 0; r < n; r++) {
+
+  //     if (start === true) {
+  //       r = lastQueen[0] + 1;
+  //     }
+
+  //     start = false;
+  //     console.log('row: ', r, 'col: ', c);
+
+  //     b.togglePiece(r, c);
+  //     if (!b.hasAnyQueenConflictsOn(r, c)) {
+  //       currentlyPlaced.push([r, c]);
+
+  //       if (currentlyPlaced.length === n) {
+  //         solutionCount++;
+  //       }
+  //       console.log('placed queen! move to next col');
+  //       r = n;
+  //     } else {
+  //       b.togglePiece(r, c);
+  //     }
+
+  //     if (r + 1 === n && currentlyPlaced.length < c + 1) {
+  //       console.log('End of a blank column!');
+  //       lastQueen = currentlyPlaced.pop();
+  //       b.togglePiece(lastQueen[0], lastQueen[1]);
+  //       console.log('Last Queen: ', lastQueen);
+  //       start = true;
+  //     }
+
+  //   }
+  // }
+
+  //
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
   return solutionCount;
 };
+
+countNQueensSolutions(4);
+
+
