@@ -78,8 +78,12 @@ window.findNQueensSolution = function(n) {
   var c = 0;
   var start = false;
 
-  if (n === 0 || n === 2 || n === 3) {
+  if (n === 0) {
     return [];
+  } else if (n === 2 ) {
+    return [[], []];
+  } else if ( n === 3) {
+    return [[], [], []];
   }
 
   //Begin Loop 1
@@ -236,7 +240,7 @@ window.countNQueensSolutions = function(n) {
   return solutionCount;
 };
 
-console.log('1 Possible Solution for 4 Queens: ' + findNQueensSolution(4));
+// console.log('1 Possible Solution for 4 Queens: ' + findNQueensSolution(4));
 // console.log('# of Solutions for 4 Queens: ' + countNQueensSolutions(4));
 
 
