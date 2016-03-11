@@ -75,6 +75,7 @@ window.findNQueensSolution = function(n) {
 // return the number of nxn chessboards that exist, with n queens placed such that none of them can attack each other
 window.countNQueensSolutions = function(n) {
   var solutionCount = 0;
+  var solutionArray = [];
   var currentlyPlaced = [];
   var b = new Board({n: n});
   var lastQueen;
@@ -104,27 +105,42 @@ window.countNQueensSolutions = function(n) {
       if (start === true) {
         r = lastQueen[0] + 1;
 
-        if (r === n) {
-          lastQueen = currentlyPlaced.pop();
-          b.togglePiece(lastQueen[0], lastQueen[1]);
-          r = lastQueen[0] + 1;
-          c = lastQueen[1];
+        if (r === n) { //check if row index is out of bounds
+          console.log('row: ', r, 'col: ', c);
+          console.log(currentlyPlaced);
+          if (currentlyPlaced.length !== 0) {//could have effed up here
+            lastQueen = currentlyPlaced.pop();
+            b.togglePiece(lastQueen[0], lastQueen[1]);
+            r = lastQueen[0] + 1;
+            c = lastQueen[1];
+            
+          } else {
+            return solutionArray.push(solutionCount);
+            
+          }
         }
       }
 
       start = false;
-      console.log('row: ', r, 'col: ', c);
+      // console.log('row: ', r, 'col: ', c);
       if (start === false) {
         b.togglePiece(r, c);
-        if (!b.hasAnyQueenConflictsOn(r, c)) {
+        if (!b.hasAnyQueenConflictsOn(r, c)) { //if no conflicts, do this.
           currentlyPlaced.push([r, c]);
+          console.log('placed queen! move to next col');
 
           if (currentlyPlaced.length === n) {
+            // debugger;
+            console.log('Found solution!');
             solutionCount++;
+            currentlyPlaced.pop();
+            b.togglePiece(r, c);
+            // solution was found, do same thing as if none was found
+          } else {
+            r = n; //if no conflicts, then skip to next column
           }
-          console.log('placed queen! move to next col');
-          r = n;
-        } else {
+
+        } else { //if has conflicts, do this:
           b.togglePiece(r, c);
         }
 
@@ -132,7 +148,7 @@ window.countNQueensSolutions = function(n) {
           console.log('End of a blank column!');
           lastQueen = currentlyPlaced.pop();
           b.togglePiece(lastQueen[0], lastQueen[1]);
-          console.log('Last Queen: ', lastQueen);
+          console.log('Last Queen: ', lastQueen[0], ' , ', lastQueen[1]);
           start = true;
         }
 
@@ -147,51 +163,12 @@ window.countNQueensSolutions = function(n) {
     }
   }
 
-  // for (c = 0; c < n; c++) {
-  //   if (start === true) {
-  //     console.log('ENTERED');
-  //     // console.log(lastQueen);
-  //     c = lastQueen[1];
-  //   }
 
-  //   for (r = 0; r < n; r++) {
-
-  //     if (start === true) {
-  //       r = lastQueen[0] + 1;
-  //     }
-
-  //     start = false;
-  //     console.log('row: ', r, 'col: ', c);
-
-  //     b.togglePiece(r, c);
-  //     if (!b.hasAnyQueenConflictsOn(r, c)) {
-  //       currentlyPlaced.push([r, c]);
-
-  //       if (currentlyPlaced.length === n) {
-  //         solutionCount++;
-  //       }
-  //       console.log('placed queen! move to next col');
-  //       r = n;
-  //     } else {
-  //       b.togglePiece(r, c);
-  //     }
-
-  //     if (r + 1 === n && currentlyPlaced.length < c + 1) {
-  //       console.log('End of a blank column!');
-  //       lastQueen = currentlyPlaced.pop();
-  //       b.togglePiece(lastQueen[0], lastQueen[1]);
-  //       console.log('Last Queen: ', lastQueen);
-  //       start = true;
-  //     }
-
-  //   }
-  // }
-
-  //
-  console.log('Number of solutions for ' + n + ' queens:', solutionCount);
-  return solutionCount;
+  // console.log('Number of solutions for ' + n + ' queens:', solutionCount);
+  // return solutionCount;
+  return solutionArray;
 };
 
-countNQueensSolutions(4);
+console.log('# of Solutions for 4 Queens: ' + countNQueensSolutions(4));
 
 
