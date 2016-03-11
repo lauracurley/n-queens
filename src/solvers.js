@@ -86,7 +86,7 @@ window.countNQueensSolutions = function(n) {
   console.log(n);
 
   if (n === 0) {
-    return 0;
+    return 1;
   } else if (n === 1) {
     return 1;
   } else if (n <= 3) {
@@ -115,7 +115,8 @@ window.countNQueensSolutions = function(n) {
             c = lastQueen[1];
             
           } else {
-            return solutionArray.push(solutionCount);
+            // return solutionArray.push(solutionCount);
+            return solutionCount;
             
           }
         }
@@ -165,8 +166,8 @@ window.countNQueensSolutions = function(n) {
 
 
   // console.log('Number of solutions for ' + n + ' queens:', solutionCount);
-  // return solutionCount;
-  return solutionArray;
+  return solutionCount;
+  // return solutionArray;
 };
 
 console.log('# of Solutions for 4 Queens: ' + countNQueensSolutions(4));
